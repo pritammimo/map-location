@@ -39,7 +39,7 @@ class Demo1 extends Component {
          
         <Map
           google={this.props.google}
-          zoom={18}
+          zoom={25}
           style={mapStyles}
           center={{
             lat: this.state.latitude,
