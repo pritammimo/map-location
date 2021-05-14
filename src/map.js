@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Map, GoogleApiWrapper, Marker,Polyline } from 'google-maps-react';
-
+import Autocomplete from "react-google-autocomplete";
 const mapStyles = {
   width: '100%',
   height: '100%'
@@ -17,8 +17,8 @@ class Demo1 extends Component {
       concat: null,
       coords:[],
       x: 'false',
-      cordLatitude:22.6519,
-      cordLongitude:88.3786,
+      cordLatitude:null,
+      cordLongitude:null,
     };  
     this.mergeLot = this.mergeLot.bind(this);
   }
@@ -70,13 +70,36 @@ class Demo1 extends Component {
         return error
     }
 }
-
+onPlaceSelected = (place) => {
+  console.log('plc', place);
+  console.log('latvalue', place.geometry.location.lat())
+  console.log('lngValue', place.geometry.location.lng())
+  this.setState({
+    cordLatitude:place.geometry.location.lat(),
+    cordLongitude:place.geometry.location.lng()
+  })
+}
 
 
   render() {
     return (
       <div>
-         
+       <h1>React map location tracking</h1>  
+       <Autocomplete
+              style={{
+                                width: '100%',
+                                height: '40px',
+                                paddingLeft: '16px',
+                                marginTop: '2px',
+                                marginBottom: '2rem'
+                  }}
+                            apiKey={'AIzaSyDDyNPwlw8xWftanmnKCenndPU0Pfu25yc'}
+                            // onPlaceSelected={(place) => {
+                            //   console.log(place);
+                            // }}
+                          onPlaceSelected={this.onPlaceSelected}
+                            types={['(regions)']}
+                        />
         <Map
           google={this.props.google}
           zoom={18}
@@ -102,12 +125,20 @@ class Demo1 extends Component {
           strokeWidth={2}
           strokeColor="red"/>
          }
+                      
         </Map>
+        {/* <Autocomplete
+  apiKey={'AIzaSyD_Y1rqX4OYQl9CxhkcX_Bhy0hAs2dysgg'}
+  onPlaceSelected={(place) => {
+    console.log(place);
+  }}
+/> */}
+
       </div>
     );
   }
 }
 
 export default GoogleApiWrapper({
-  apiKey: ('AIzaSyD_Y1rqX4OYQl9CxhkcX_Bhy0hAs2dysgg')
+  apiKey: ('AIzaSyDDyNPwlw8xWftanmnKCenndPU0Pfu25yc')
 })(Demo1);
